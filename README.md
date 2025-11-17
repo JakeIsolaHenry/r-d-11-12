@@ -55,6 +55,31 @@
             padding: 20px;
             flex-wrap: wrap;
         }
+        
+        .dollar-popup {
+            position: absolute;
+            font-size: 24px;
+            font-weight: 700;
+            color: #10b981;
+            pointer-events: none;
+            animation: dollarFloat 1.5s ease-out forwards;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+@keyframes dollarFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-30px) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-60px) scale(1);
+    }
+}
 
         .tab-button {
             background: rgba(255, 255, 255, 0.2);
@@ -834,7 +859,7 @@
                                     <div class="result-url">google.com</div>
                                     <div class="result-title">Get Google One Premium Storage</div>
                                     <div class="result-description">Shop Online - 2 TB of storage w/ VPN & Premium features on $9.99/mo plan w/AutoPay.</div>
-                                    <button class="visit-button">Visit Website</button>
+                                    <button class="visit-button" onclick="showMonetization(this, '$1.55')">Visit Website</button>
                                 </div>
 
                                 <div class="serp-result">
@@ -842,7 +867,7 @@
                                     <div class="result-url">t-mobile.com</div>
                                     <div class="result-title">Get Google Pixel 10 Pro On Us</div>
                                     <div class="result-description">Shop Online or In-Store - On us via 24 mo crdt w/ new line on $100+/mo plan w/AutoPay.</div>
-                                    <button class="visit-button">Visit Website</button>
+                                    <button class="visit-button" onclick="showMonetization(this, '$1.85')">Visit Website</button>
                                 </div>
                             </div>
                         </div>
@@ -1278,6 +1303,28 @@
             const buttons = document.querySelectorAll('.solar-toggle-container .toggle-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             buttons[3].classList.add('active');
+        }
+        function showMonetization(button, amount) {
+            // Get button position
+            const rect = button.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+            
+            // Create dollar popup
+            const popup = document.createElement('div');
+            popup.className = 'dollar-popup';
+            popup.textContent = amount;
+            popup.style.position = 'absolute';
+            popup.style.left = (rect.left + scrollLeft + rect.width / 2 - 30) + 'px';
+            popup.style.top = (rect.top + scrollTop - 20) + 'px';
+            popup.style.zIndex = '10000';
+            
+            document.body.appendChild(popup);
+            
+            // Remove after animation
+            setTimeout(() => {
+            popup.remove();
+            }, 1500);
         }
     </script>
 </body>
